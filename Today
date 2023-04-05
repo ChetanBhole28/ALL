@@ -1,0 +1,71 @@
+6. Pre-process the given data set and hence classify the resultant dataset using a support vector machine. Interpret the result.
+> x=c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20)
+> y=c(3,4,5,4,8,10,10,11,14,20,23,24,32,34,35,37,42,48,53,60)
+> train = data.frame(x,y)
+> plot(train,pch=16)
+> model <- lm(y~x,train)
+> abline(model)
+> library(e1071)
+> model_svm <- svm(y~x,train)
+> pred <- predict(model_svm, train)
+> points(train$x,pred,col="blue",pch=4)
+> error <- model$residuals
+> lm_error <- sqrt(mean(error^2))
+> print(lm_error)
+> error_2 <- train$y-pred
+> svm_error <- sqrt(mean(error_2^2))
+> print(svm_error)
+> svm_tune <- tune(svm, y ~ x, data = train, ranges = list(epsilon = seq(0,1,0.01), cost = 2^(2:9)))
+> print(svm_tune)
+> best_mod <- svm_tune$best.model
+> best_mod_pred <- predict(best_mod, train)
+> plot(svm_tune)
+> plot(train, pch=16)
+> points(train$x, best_mod_pred, col = "blue", pch=4)
+
+
+7. Write a program to explain different functions ofPrincipal Components.
+> data(iris)
+> head(iris, 3)
+> log.ir <- log(iris[,1:4])
+> ir.species <- iris[,5]
+> ir.pca <- prcomp(log.ir, center = TRUE, scale. = TRUE)
+> print(ir.pca)
+> plot(ir.pca, type = "1")
+> summary(ir.pca)
+> predict(ir.pca, newdata=tail(log.ir,2))
+
+
+8. Write a program to explain CUR Decomposition technique.
+> library("rCUR")
+> data(STTm)
+> data(STTa)
+> n = 27
+> res = CUR(STTm, 31, n, 4)
+> plotLeverage(res, C=FALSE,top.n=n,xlab="Gene ID",
+las=1,top.col="black",top.pch=16,ul.col="black",ul.lty=2,col="gre
+y")
+
+
+9. Write a program to explain links to establish higher-order relationships among entities in Link Analysis.
+> library(sna)
+> N = 10
+> plink = 0.2
+> graph = rgraph(N,1,plink,"graph",FALSE)
+> graph
+> degree(graph)
+> gden(graph,mode="graph")
+> is.connected(graph)
+> connectedness(graph)
+> betweenness(graph)
+> geo=geodist(graph)
+> geo$gdist
+> ego.extract(graph,6)
+> closeness(graph)
+> library(igraph)
+> g<-random.graph.game(20,5/20,directed=TRUE)
+> page.rank(g)$vector
+> g2<-graph.star(10)
+> page.rank(g2)$vector
+> plot(g)
+> plot(g2)
